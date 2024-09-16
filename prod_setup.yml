@@ -1,0 +1,39 @@
+---
+- hosts: vm1
+  become: yes
+  tasks:
+    - name: Install Apache on VM1
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install Node.js on VM1
+      apt:
+        name: nodejs
+        state: present
+
+- hosts: vm2
+  become: yes
+  tasks:
+    - name: Install Apache on VM2
+      apt:
+        name: apache2
+        state: present
+
+    - name: Install Node.js on VM2
+      apt:
+        name: nodejs
+        state: present
+
+    - name: Install MariaDB on VM2
+      apt:
+        name: mariadb-server
+        state: present
+
+    - name: Deploy web application from Git on VM2
+      git:
+        repo: 'git@github.com:ttu-bburchfield/swollenhippofinal.git'
+        dest: /var/www/html/swollenhippofinal
+        version: prod-branch
+        accept_hostkey: yes
+      become: false
